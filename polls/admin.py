@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Question, Choice
+from .models import Question, Choice, Pessoa, Parentesco, Dependente
 
 class ChoiceInline(admin.TabularInline):
     model = Choice
@@ -16,6 +16,19 @@ class QuestionAdmin(admin.ModelAdmin):
     list_filter = ['pub_date']
     search_fields = ['question_text']
 
+class DependenteInline(admin.TabularInline):
+    model = Dependente 
+    extra = 3
+    fk_name = "titular"
+
+class PessoaAdmin(admin.ModelAdmin):
+    list_display = ('nome', 'idade', 'sexo')
+    inlines = [DependenteInline]
+    search_fields = ['nome']
+    list_filter = ['sexo']
+
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Choice)
+admin.site.register(Pessoa, PessoaAdmin)
+admin.site.register(Parentesco)
 
